@@ -1,3 +1,5 @@
 .idea/ 
 output.txt
 venv/
+test.py
+test_2.py
