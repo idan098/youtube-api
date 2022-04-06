@@ -38,12 +38,20 @@ def stream_audio(file_name, player):
 
 def main():
     player = vlc.MediaPlayer()
+    playlist = []
 
     for phrase in LiveSpeech():
         phrase = str(phrase)
         print(phrase)
-        if "play" in phrase:
-            phrase = phrase.split(" ", 1)[1]
+
+        if "playist" in phrase:
+            pass
+
+        elif "play" in phrase:
+            try:
+                phrase = phrase.split(" ", 1)[1]
+            except IndexError:
+                print("only one word")
             print(f"playing {phrase}")
             video_url = search_video(phrase)
             stream_audio(video_url, player)
@@ -51,18 +59,10 @@ def main():
                 time.sleep(0.1)
 
         elif player.is_playing() and "stop" in phrase:
-            player.pause()
+            player.set_pause(1)
 
-
-    if player.is_playing():
-        time.sleep(1)
-
-    # video_name = voice_query_user_for_video()
-    # video_url = search_video(video_name)
-    # stream_audio(video_url)
-
-    # while True:
-    #     pass
+        elif "resume" in phrase and not player.is_playing():
+            player.set_pause(0)
     return
 
 
