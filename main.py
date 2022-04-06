@@ -1,3 +1,4 @@
+import time
 import vlc
 import pafy
 from youtubesearchpython import VideosSearch
@@ -25,23 +26,46 @@ def search_video(video_name):
     return video_url
 
 
-def stream_audio(file_name):
+def stream_audio(file_name, player):
     stream = pafy.new(file_name)
     audio_stream = stream.getbestaudio()
+    print(audio_stream)
     audio_stream_url = audio_stream.url
-    player = vlc.MediaPlayer(audio_stream_url)
+    print(audio_stream_url)
+    media = vlc.Media(audio_stream_url)
+    player.set_media(media)
     player.play()
     player.get_instance()
-    return
 
 
 def main():
-    video_name = voice_query_user_for_video()
-    video_url = search_video(video_name)
-    stream_audio(video_url)
+    player = vlc.MediaPlayer()
 
-    while True:
-        pass
+    for phrase in LiveSpeech():
+        phrase = str(phrase)
+        print(phrase)
+        if "play" in phrase:
+            phrase = phrase.split(" ", 1)[1]
+            print(f"playing {phrase}")
+            video_url = search_video(phrase)
+            stream_audio(video_url, player)
+            while not player.is_playing():
+                time.sleep(0.1)
+
+        elif player.is_playing() and "stop" in phrase:
+            player.pause()
+
+        elif ""
+
+    if player.is_playing():
+        time.sleep(1)
+
+    # video_name = voice_query_user_for_video()
+    # video_url = search_video(video_name)
+    # stream_audio(video_url)
+
+    # while True:
+    #     pass
     return
 
 
