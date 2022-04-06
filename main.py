@@ -29,9 +29,7 @@ def search_video(video_name):
 def stream_audio(file_name, player):
     stream = pafy.new(file_name)
     audio_stream = stream.getbestaudio()
-    print(audio_stream)
     audio_stream_url = audio_stream.url
-    print(audio_stream_url)
     media = vlc.Media(audio_stream_url)
     player.set_media(media)
     player.play()
@@ -55,7 +53,6 @@ def main():
         elif player.is_playing() and "stop" in phrase:
             player.pause()
 
-        elif ""
 
     if player.is_playing():
         time.sleep(1)
